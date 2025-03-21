@@ -1,0 +1,6 @@
+fastapi
+pylint
+radon
+coverage
+requests
+gitpython
