@@ -5,3 +5,4 @@ coverage
 requests
 gitpython
 pytest
+fpdf
