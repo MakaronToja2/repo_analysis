@@ -5,32 +5,33 @@ from .base_analyzer import CodeAnalyzer
 class BanditAnalyzer(CodeAnalyzer):
     def analyze(self, repo_path: str) -> dict:
         """
-        Run Bandint on given repo_path and return security findings
+        Run Bandit on given repo_path and return security findings
         """
         try:
             print(f"Running bandit analyzer on {repo_path}")
             result = subprocess.run(
-                ["bandit", "r", repo_path, "-f", "json"],
+                ["bandit", "-r", repo_path, "-f", "json"],
                 capture_output=True,
                 text=True,
-                check=True
+                check=False
             )
             output = result.stdout
             bandit_results = json.loads(output)
         except subprocess.CalledProcessError as e:
-            return {"error": f"Bandit failed: {e.stderr.srip()}"}
+            return {"error": f"Bandit failed: {e.stderr.strip()}"}
         except json.JSONDecodeError:
-            return {"error": f"Failed to parse Bandit output."}
-        
+            return {"error": "Failed to parse Bandit output."}
+
         summary = self._generate_summary(bandit_results)
         details = bandit_results.get("results", [])
+        print(f"This is the summary: {summary}")
         if not summary and not details:
             return {"error": "No issues found or not analyzable files in the repo"}
         return {
             "summary": summary,
-            "details": bandit_results.get("results", [])
+            "details": details
         }
-    
+
     def _generate_summary(self, data: dict) -> dict:
         summary = {}
         for issue in data.get("results", []):

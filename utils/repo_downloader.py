@@ -27,6 +27,7 @@ def download_repo(github_url: str):
     with tempfile.TemporaryDirectory(prefix="repo_analysis_") as tmp_dir:
         try:
             print(f"Cloning {base_repo_url} into {tmp_dir}...")
+
             clone_cmd = ["git", "clone", "--depth", "1"]
             if branch:
                 clone_cmd += ["--branch", branch]
@@ -39,6 +40,12 @@ def download_repo(github_url: str):
                 stderr=subprocess.PIPE
             )
 
+            # for root, dirs, files in os.walk(tmp_dir):
+            #     level = root.replace(tmp_dir, "").count(os.sep)
+            #     indent = " " * level
+            #     print(f"{indent}- {os.path.basename(root)}/")
+            #     for f in files:
+            #         print(f"{indent}  └ {f}")
             yield tmp_dir
 
         except subprocess.CalledProcessError as e:
