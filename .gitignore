@@ -3,3 +3,4 @@
 ./analyzers/.__pycache
 ./tests/__pycache
 ./utils/__pycache
+analysis_report_*

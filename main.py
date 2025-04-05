@@ -5,6 +5,7 @@ from utils.repo_downloader import download_repo
 from analyzers.pylint_analyzer import PylintAnalyzer
 from analyzers.radon_analyzer import RadonAnalyzer
 from analyzers.bandit_analyzer import BanditAnalyzer
+from analyzers.documentation_analyzer import DocumentationAnalyzer
 from fpdf import FPDF
 
 def analyze_repo(repo_url: str) -> tuple:
@@ -14,7 +15,8 @@ def analyze_repo(repo_url: str) -> tuple:
         analyzers = {
             "Pylint": PylintAnalyzer(),
             "Radon": RadonAnalyzer(),
-            "Bandit": BanditAnalyzer()
+            "Bandit": BanditAnalyzer(),
+            "Documentation": DocumentationAnalyzer()
         }
 
         results = {}
